@@ -1,11 +1,5 @@
-export default function ManagePage() {
-  return (
-    <section className="simplePage">
-      <h2>Manage the exam</h2>
+import { redirect } from "next/navigation";
 
-      <p>
-        หน้านี้จะทำตาม Figma ของ Manage the exam เมื่อมีแบบหน้านั้น
-      </p>
-    </section>
-  );
+export default function Home() {
+  redirect("/admin/grading");
 }
