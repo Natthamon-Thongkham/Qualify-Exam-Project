@@ -1,0 +1,1316 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =========================
+   ROOT
+========================= */
+
+.appPage {
+  width: 100%;
+
+  min-height: 100vh;
+
+  padding: 48px 5.2vw 40px;
+
+  background: #ffffff;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.appHeader {
+  width: 100%;
+}
+
+.appLogo {
+  margin: 0 0 24px;
+
+  color: #000000;
+
+  font-size: 50px;
+  font-style: italic;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.mainNav {
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: 72px;
+
+  width: 100%;
+
+  border-bottom: 2px solid #222222;
+}
+
+.mainNavItem {
+  position: relative;
+
+  z-index: 2;
+
+  padding: 0 0 12px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #111111;
+
+  font-size: 24px;
+  font-weight: 400;
+
+  white-space: nowrap;
+}
+
+.navIndicator {
+  position: absolute;
+
+  left: 0;
+  bottom: -3px;
+
+  z-index: 3;
+
+  height: 6px;
+
+  border-radius: 2px;
+
+  background: #1765ff;
+
+  transition:
+    left 280ms ease,
+    width 280ms ease;
+}
+
+/* =========================
+   GRADING SUMMARY
+========================= */
+
+.gradingPage {
+  width: 100%;
+}
+
+.summaryRow {
+  display: grid;
+
+  grid-template-columns:
+    minmax(230px, 1.2fr)
+    minmax(190px, 1fr)
+    minmax(190px, 1fr)
+    minmax(190px, 1fr);
+
+  align-items: center;
+
+  gap: 65px;
+
+  padding: 16px 7.5vw 18px;
+}
+
+.examSet {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 240px;
+
+  min-height: 70px;
+
+  padding: 8px 11px;
+
+  border: 1px solid #9b9b9b;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  text-align: left;
+}
+
+.summaryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 52px;
+  height: 52px;
+
+  margin-right: 12px;
+
+  border-radius: 9px;
+
+  font-size: 28px;
+}
+
+.documentIcon {
+  background: #e4edff;
+}
+
+.studentsIcon {
+  color: #1765ff;
+  background: #dce8ff;
+}
+
+.pendingIcon {
+  background: #dcefc6;
+}
+
+.trophyIcon {
+  background: #ffe4a0;
+}
+
+.examText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.examText strong {
+  margin-bottom: 5px;
+
+  color: #111111;
+
+  font-size: 23px;
+}
+
+.examText span {
+  color: #111111;
+
+  font-size: 18px;
+}
+
+.arrow {
+  margin-left: 8px;
+
+  font-size: 21px;
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+}
+
+.summaryCard strong {
+  display: block;
+
+  color: #111111;
+
+  font-size: 23px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.summaryCard span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #000000;
+
+  font-size: 23px;
+  font-weight: 700;
+}
+
+/* =========================
+   STUDENT PANEL
+========================= */
+
+.studentPanel {
+  width: 100%;
+
+  overflow: hidden;
+
+  border: 1px solid #303030;
+  border-radius: 17px;
+
+  background: #ffffff;
+}
+
+.studentToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 84px;
+
+  padding: 0 24px;
+}
+
+.studentToolbar h2 {
+  margin: 0;
+
+  color: #101010;
+
+  font-size: 29px;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+
+  width: 228px;
+  height: 45px;
+
+  padding: 0 12px;
+
+  border: 1px solid #333333;
+  border-radius: 11px;
+}
+
+.searchIcon {
+  margin-right: 7px;
+
+  font-size: 25px;
+}
+
+.searchBox input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  font-size: 16px;
+}
+
+.filterGroup select {
+  height: 45px;
+
+  padding: 0 13px;
+
+  border: 1px solid #333333;
+  border-radius: 11px;
+
+  background: white;
+
+  color: #111111;
+
+  font-size: 16px;
+}
+
+.filterGroup select:nth-of-type(1) {
+  width: 235px;
+}
+
+.filterGroup select:nth-of-type(2) {
+  width: 180px;
+}
+
+.resetBtn,
+.applyBtn {
+  height: 45px;
+
+  padding: 0 19px;
+
+  border-radius: 11px;
+
+  font-size: 16px;
+}
+
+.resetBtn {
+  border: 1px solid #333333;
+
+  background: #f5aaaa;
+}
+
+.applyBtn {
+  border: 1px solid #1765ff;
+
+  background: #1765ff;
+
+  color: #ffffff;
+}
+
+.tableWrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.studentTable {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.studentTable thead {
+  background: #eaf0f8;
+}
+
+.studentTable th {
+  height: 66px;
+
+  padding: 0 12px;
+
+  color: #111111;
+
+  font-size: 17px;
+
+  white-space: nowrap;
+}
+
+.studentTable td {
+  height: 78px;
+
+  padding: 0 12px;
+
+  border-top: 1px solid #666666;
+
+  color: #101828;
+
+  font-size: 17px;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+.clickableStudent {
+  cursor: pointer;
+
+  transition: background 160ms ease;
+}
+
+.clickableStudent:hover {
+  background: #f6f9ff;
+}
+
+.studentId {
+  display: flex;
+  align-items: center;
+
+  min-width: 190px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 35px;
+  height: 35px;
+
+  margin-right: 8px;
+
+  border-radius: 50%;
+
+  background: #dceaff;
+
+  font-size: 20px;
+}
+
+.reviewedBadge,
+.pendingBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 94px;
+
+  padding: 8px 11px;
+
+  border-radius: 13px;
+
+  color: #111111;
+
+  line-height: 1;
+}
+
+.reviewedBadge {
+  border: 1px solid #35c55c;
+
+  background: #c9f0aa;
+}
+
+.pendingBadge {
+  border: 1px solid #ff9f26;
+
+  background: #fff0b1;
+}
+
+.tableFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 70px;
+
+  padding: 0 28px;
+
+  border-top: 1px solid #666666;
+}
+
+.tableFooter p {
+  margin: 0;
+
+  font-size: 17px;
+}
+
+.pagination {
+  display: flex;
+
+  gap: 18px;
+}
+
+.pagination button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 42px;
+  height: 38px;
+
+  border: 1px solid #333333;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  font-size: 17px;
+}
+
+.pagination .currentPage {
+  border-color: #1765ff;
+
+  background: #1765ff;
+
+  color: #ffffff;
+}
+
+/* =========================
+   REVIEW TOP
+========================= */
+
+.reviewPage {
+  width: 100%;
+}
+
+.reviewTop {
+  display: grid;
+
+  grid-template-columns:
+    250px
+    250px
+    330px
+    1fr
+    170px;
+
+  align-items: start;
+
+  gap: 42px;
+
+  padding: 14px 8px 26px;
+}
+
+.examPartsButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 250px;
+
+  min-height: 69px;
+
+  padding: 8px 9px;
+
+  border: 1px solid #555555;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  text-align: left;
+}
+
+.examPartsTitle {
+  color: #111111;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.smallReviewed {
+  display: inline-flex;
+
+  margin-left: 5px;
+
+  padding: 4px 8px;
+
+  border: 1px solid #3ebe58;
+  border-radius: 12px;
+
+  background: #c8f0aa;
+
+  font-size: 11px;
+  font-weight: 400;
+
+  vertical-align: 3px;
+}
+
+.examPartsName {
+  margin-top: 6px;
+
+  font-size: 18px;
+}
+
+.studentSummary,
+.submittedSummary {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.summaryPersonIcon,
+.calendarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 53px;
+  height: 53px;
+
+  border-radius: 9px;
+
+  font-size: 28px;
+}
+
+.summaryPersonIcon {
+  color: #1765ff;
+
+  background: #dce8ff;
+}
+
+.calendarIcon {
+  color: #54748e;
+
+  background: #c9e5ff;
+}
+
+.studentSummary strong,
+.submittedSummary strong,
+.progressSummary strong,
+.totalSummary strong {
+  display: block;
+
+  color: #111111;
+
+  font-size: 23px;
+}
+
+.studentSummary span,
+.submittedSummary span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #3d4758;
+
+  font-size: 18px;
+}
+
+.progressSummary span {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 23px;
+}
+
+.progressTrack {
+  width: 210px;
+  height: 6px;
+
+  margin-top: 8px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #e4e7ec;
+}
+
+.progressValue {
+  width: 53%;
+  height: 100%;
+
+  border-radius: 10px;
+
+  background: #1765ff;
+}
+
+.totalSummary span {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 23px;
+}
+
+.totalSummary b {
+  color: #0054c7;
+
+  font-size: 27px;
+}
+
+/* =========================
+   REVIEW COLUMNS
+========================= */
+
+.reviewColumns {
+  display: grid;
+
+  grid-template-columns:
+    minmax(520px, 1fr)
+    minmax(520px, 1fr);
+
+  gap: 95px;
+}
+
+.reviewLeft,
+.reviewRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewLeft {
+  gap: 8px;
+}
+
+.questionBox,
+.studentAnswerBox {
+  width: 100%;
+
+  padding: 14px 27px;
+
+  border: 1px solid #777777;
+  border-radius: 28px;
+
+  background: #ffffff;
+}
+
+.questionBox {
+  min-height: 300px;
+}
+
+.studentAnswerBox {
+  min-height: 265px;
+}
+
+.boxHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boxHeading h2 {
+  margin: 0 0 12px;
+
+  color: #111111;
+
+  font-size: 25px;
+}
+
+.expandButton {
+  border: none;
+
+  background: transparent;
+
+  color: #111111;
+
+  font-size: 28px;
+}
+
+.questionContent {
+  display: grid;
+
+  grid-template-columns: 120px 1fr;
+
+  gap: 4px;
+}
+
+.questionContent strong {
+  font-size: 18px;
+}
+
+.questionContent pre {
+  margin: 0;
+
+  white-space: pre-wrap;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 16px;
+  line-height: 1.17;
+}
+
+.studentAnswerBox p {
+  margin: 12px 4px;
+
+  font-size: 19px;
+}
+
+/* =========================
+   AI FEEDBACK
+========================= */
+
+.assessmentTitle {
+  margin: 0 0 14px 8px;
+
+  color: #111111;
+
+  font-size: 23px;
+}
+
+.aiAssessment {
+  position: relative;
+
+  min-height: 220px;
+
+  padding: 21px 26px;
+
+  border-radius: 18px;
+
+  background: #e0f6e8;
+}
+
+.aiAssessment p {
+  max-width: 82%;
+
+  margin: 0 0 25px;
+
+  color: #111111;
+
+  font-size: 19px;
+
+  line-height: 1.25;
+}
+
+.aiAssessment ul {
+  margin: 0;
+
+  padding: 0;
+
+  list-style: none;
+
+  color: #111111;
+
+  font-size: 18px;
+}
+
+.aiAssessment li {
+  margin: 4px 0;
+}
+
+.aiAssessment li span {
+  margin-right: 6px;
+
+  color: #00ad31;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.suggestedScore {
+  position: absolute;
+
+  right: 22px;
+  bottom: 18px;
+
+  text-align: center;
+}
+
+.suggestedScore small {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #555555;
+
+  font-size: 10px;
+}
+
+.suggestedScore div {
+  padding: 10px 20px;
+
+  border: 1px solid #999999;
+  border-radius: 9px;
+
+  color: #008f39;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* =========================
+   MANUAL REVIEW
+========================= */
+
+.manualReview {
+  display: flex;
+  align-items: center;
+
+  min-height: 80px;
+
+  margin-top: 18px;
+
+  padding: 13px 20px;
+
+  border: 1px solid #999999;
+  border-radius: 16px;
+
+  gap: 17px;
+}
+
+.manualLabel {
+  min-width: 145px;
+}
+
+.manualLabel strong {
+  display: block;
+
+  font-size: 17px;
+}
+
+.manualLabel span {
+  display: block;
+
+  margin-top: 3px;
+}
+
+.manualScore {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.manualScore input {
+  width: 54px;
+  height: 38px;
+
+  border: 1px solid #aaaaaa;
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-weight: 700;
+}
+
+.cancelScoreButton,
+.saveScoreButton {
+  padding: 8px 12px;
+
+  border-radius: 9px;
+}
+
+.cancelScoreButton {
+  margin-left: auto;
+
+  border: 1px solid #999999;
+
+  background: #ffffff;
+}
+
+.saveScoreButton {
+  border: 1px solid #1765ff;
+
+  background: #1765ff;
+
+  color: #ffffff;
+}
+
+/* =========================
+   REMARK
+========================= */
+
+.remarkSection {
+  position: relative;
+
+  margin-top: 14px;
+
+  padding: 12px 20px 9px;
+
+  border: 1px solid #999999;
+  border-radius: 16px;
+}
+
+.remarkSection strong {
+  display: block;
+
+  margin-bottom: 8px;
+}
+
+.remarkSection textarea {
+  width: 100%;
+  height: 53px;
+
+  padding: 14px 15px;
+
+  resize: none;
+
+  border: 1px solid #aaaaaa;
+  border-radius: 12px;
+
+  outline: none;
+
+  font-weight: 600;
+}
+
+.remarkSection small {
+  display: block;
+
+  margin-top: 5px;
+}
+
+/* =========================
+   REVIEW NAVIGATION
+========================= */
+
+.reviewNavigation {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 26px;
+}
+
+.nextQuestionButton {
+  padding: 9px 17px;
+
+  border: 2px solid #00a33a;
+  border-radius: 15px;
+
+  background: #c1efa8;
+
+  color: #111111;
+
+  font-size: 18px;
+}
+
+/* =========================
+   SIMPLE PAGE
+========================= */
+
+.simplePage {
+  padding: 55px 0;
+}
+
+.simplePage h2 {
+  margin: 0 0 12px;
+
+  font-size: 30px;
+}
+
+.simplePage p {
+  color: #667085;
+
+  font-size: 18px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1350px) {
+  .summaryRow {
+    gap: 30px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .reviewTop {
+    grid-template-columns:
+      220px
+      220px
+      280px
+      220px
+      140px;
+
+    gap: 20px;
+  }
+
+  .reviewColumns {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .appPage {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .mainNav {
+    gap: 35px;
+  }
+
+  .summaryRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .studentToolbar {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .filterGroup {
+    flex-wrap: wrap;
+  }
+
+  .reviewTop {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reviewColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .appPage {
+    padding: 28px 16px;
+  }
+
+  .appLogo {
+    font-size: 38px;
+  }
+
+  .mainNav {
+    gap: 28px;
+
+    overflow-x: auto;
+  }
+
+  .mainNavItem {
+    font-size: 18px;
+  }
+
+  .summaryRow {
+    grid-template-columns: 1fr;
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .filterGroup {
+    flex-direction: column;
+
+    width: 100%;
+  }
+
+  .searchBox,
+  .filterGroup select:nth-of-type(1),
+  .filterGroup select:nth-of-type(2),
+  .resetBtn,
+  .applyBtn {
+    width: 100%;
+  }
+
+  .reviewTop {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .questionContent {
+    grid-template-columns: 1fr;
+  }
+
+  .manualReview {
+    flex-wrap: wrap;
+  }
+}
+.partsArrow {
+  margin-left: 10px;
+  color: #111111;
+  font-size: 18px;
+}
+
+.studentAnswerText {
+  margin: 14px 4px 0;
+  color: #111111;
+  font-size: 22px;
+}
+
+.checkMark {
+  margin-right: 7px;
+  color: #00ad31;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.reviewRight {
+  min-width: 0;
+}
+
+/* =========================
+   EXAM SET DROPDOWN
+========================= */
+
+.examSelector {
+  position: relative;
+  z-index: 30;
+}
+
+.examSet {
+  position: relative;
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+.examDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 100;
+
+  width: 330px;
+  padding: 8px;
+
+  border: 1px solid #c4c4c4;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+
+.examOption {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  gap: 12px;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #111111;
+
+  text-align: left;
+}
+
+.examOption:hover {
+  background: #f2f6ff;
+}
+
+.examOption + .examOption {
+  margin-top: 4px;
+}
+
+.examOptionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 8px;
+
+  background: #dce7ff;
+
+  font-size: 22px;
+}
+
+.examOption div {
+  display: flex;
+  flex-direction: column;
+}
+
+.examOption strong {
+  font-size: 17px;
+}
+
+.examOption div span {
+  margin-top: 4px;
+
+  color: #667085;
+  font-size: 13px;
+}
+
+.selectedExamOption {
+  background: #edf3ff;
+}
+
+.selectedExamOption::after {
+  content: "✓";
+
+  margin-left: auto;
+
+  color: #1765ff;
+
+  font-size: 18px;
+  font-weight: 700;
+}
