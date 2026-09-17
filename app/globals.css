@@ -551,6 +551,8 @@ button {
   gap: 42px;
 
   padding: 14px 8px 26px;
+
+  margin-top: -20px;
 }
 
 .examPartsButton {
@@ -637,6 +639,13 @@ button {
   color: #54748e;
 
   background: #c9e5ff;
+}
+
+.reviewTopIcon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
 }
 
 .studentSummary strong,
@@ -1283,6 +1292,39 @@ button {
 
   font-size: 22px;
 }
+.examOptionImage {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+.examOptionDetails {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #5b6475;
+  white-space: nowrap;
+  width: auto;
+}
+
+.examDetailItem {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.examDetailItem img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
 
 .examOption div {
   display: flex;
@@ -1301,16 +1343,1073 @@ button {
 }
 
 .selectedExamOption {
+  position: relative;
   background: #edf3ff;
 }
 
-.selectedExamOption::after {
-  content: "✓";
+.examOptionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  margin-left: auto;
+.examTitleCheck {
+  color: #0066ff;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* =====================================
+   DYNAMIC EXAM PART SELECTOR
+===================================== */
+
+.examPartsSelector {
+  position: relative;
+  z-index: 50;
+}
+
+.examPartsButton {
+  position: relative;
+}
+
+.partsArrow {
+  margin-left: 10px;
+
+  color: #111111;
+
+  font-size: 17px;
+
+  transition: transform 0.2s ease;
+}
+
+.partsArrowOpen {
+  transform: rotate(180deg);
+}
+
+.examPartsDropdown {
+  position: absolute;
+
+  top: calc(100% + 7px);
+  left: 0;
+
+  z-index: 200;
+
+  width: 285px;
+
+  padding: 7px;
+
+  border: 1px solid #b5b5b5;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.13);
+}
+
+.examPartOption {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  padding: 11px 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.examPartOption:hover {
+  background: #f2f6ff;
+}
+
+.examPartOption + .examPartOption {
+  margin-top: 3px;
+}
+
+.examPartOption > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 12px;
+}
+
+.examPartOption strong {
+  font-size: 15px;
+}
+
+.activeExamPart {
+  background: #edf3ff;
+}
+
+.partReviewedText,
+.partPendingText {
+  flex-shrink: 0;
+
+  padding: 3px 7px;
+
+  border-radius: 10px;
+
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.partReviewedText {
+  border: 1px solid #39bd57;
+
+  background: #c9f0aa;
+}
+
+.partPendingText {
+  border: 1px solid #ff9f26;
+
+  background: #fff0b1;
+}
+
+.smallPending {
+  display: inline-flex;
+
+  margin-left: 5px;
+
+  padding: 4px 8px;
+
+  border: 1px solid #ff9f26;
+  border-radius: 12px;
+
+  background: #fff0b1;
+
+  font-size: 11px;
+  font-weight: 400;
+
+  vertical-align: 3px;
+}
+
+
+/* =====================================
+   BACK + NEXT
+===================================== */
+
+.reviewNavigationBoth {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 27px;
+}
+
+.backQuestionButton {
+  padding: 9px 16px;
+
+  border: 2px solid #1765ff;
+  border-radius: 15px;
+
+  background: #c9e1ff;
+
+  color: #111111;
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
+
+.backQuestionButton:hover {
+  background: #b8d7ff;
+}
+
+
+/* =====================================
+   STUDENT ANSWER PRE
+===================================== */
+
+.studentAnswerText {
+  margin: 14px 4px 0;
+
+  color: #111111;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 20px;
+  line-height: 1.35;
+
+  white-space: pre-wrap;
+}
+
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
+
+.adminPanelPage {
+  width: 100%;
+  padding: 42px 0 60px;
+}
+
+.userManagementCard {
+  width: 100%;
+
+  min-height: 585px;
+
+  border: 1px solid #252525;
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+/* =========================================================
+   ADMIN TOOLBAR
+========================================================= */
+
+.userManagementToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 82px;
+
+  padding: 0 24px;
+
+  border-bottom: 1px solid #8c8c8c;
+}
+
+.userManagementToolbar h1 {
+  margin: 0;
+
+  color: #111111;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.userManagementActions {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.adminSearchBox {
+  position: relative;
+
+  width: 185px;
+  height: 42px;
+}
+
+.adminSearchBox input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 42px 0 14px;
+
+  border: 1px solid #222222;
+  border-radius: 13px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  font-size: 15px;
+}
+
+.adminSearchBox input:focus {
+  border-color: #1765ff;
+}
+
+.adminSearchIcon {
+  position: absolute;
+
+  top: 50%;
+  right: 15px;
+
+  transform: translateY(-50%);
+
+  color: #111111;
+
+  font-size: 24px;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   ROLE FILTER
+========================================================= */
+
+.roleFilter {
+  height: 42px;
+
+  padding: 0 38px 0 14px;
+
+  border: 1px solid #222222;
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  font-size: 15px;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   ADD / IMPORT
+========================================================= */
+
+.addUserButton {
+  height: 44px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #1765ff;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.addUserButton:hover {
+  background: #0d56e8;
+}
+
+.importUserButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  height: 44px;
+
+  padding: 0 17px;
+
+  border: 1px solid #222222;
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  font-size: 21px;
+
+  cursor: pointer;
+}
+
+.importUserButton:hover {
+  background: #f5f5f5;
+}
+
+.importIcon {
+  font-size: 25px;
+  line-height: 1;
+}
+
+.importedFileNotice {
+  padding: 8px 24px;
+
+  border-bottom: 1px solid #dddddd;
+
+  color: #667085;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.adminUserTableWrapper {
+  width: 100%;
+}
+
+.adminUserTable {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+}
+
+.adminUserTable thead {
+  background: #eaf0f8;
+}
+
+.adminUserTable th {
+  height: 60px;
+
+  padding: 0 24px;
+
+  border-bottom: 1px solid #555555;
+
+  color: #111111;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  text-align: left;
+}
+
+.adminUserTable td {
+  height: 71px;
+
+  padding: 0 24px;
+
+  border-bottom: 1px solid #777777;
+
+  color: #111827;
+
+  font-size: 17px;
+}
+
+.adminUserTable th:nth-child(1),
+.adminUserTable td:nth-child(1) {
+  width: 27%;
+}
+
+.adminUserTable th:nth-child(2),
+.adminUserTable td:nth-child(2) {
+  width: 33%;
+}
+
+.adminUserTable th:nth-child(3),
+.adminUserTable td:nth-child(3) {
+  width: 22%;
+}
+
+.adminUserTable th:nth-child(4),
+.adminUserTable td:nth-child(4) {
+  width: 18%;
+}
+
+.adminUserId {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.adminAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #deebff;
+
+  color: #111111;
+
+  font-size: 19px;
+}
+
+.adminRole {
+  color: #536175;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.adminActionButtons {
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+}
+
+.editUserButton,
+.deleteUserButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 25px;
+
+  cursor: pointer;
+}
+
+.editUserButton {
+  color: #000000;
+}
+
+.deleteUserButton {
+  color: #ff2b2b;
+}
+
+.editUserButton:hover,
+.deleteUserButton:hover {
+  transform: scale(1.08);
+}
+
+.noUsersFound {
+  height: 100px !important;
+
+  color: #777777 !important;
+
+  text-align: center !important;
+}
+
+/* =========================================================
+   MODAL BACKGROUND
+========================================================= */
+
+.adminModalOverlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(0, 0, 0, 0.47);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.adminUserModal {
+  width: min(760px, 94vw);
+
+  padding: 28px 28px 30px;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+}
+
+.adminModalHeading h2 {
+  margin: 0;
+
+  color: #111111;
+
+  font-size: 29px;
+  font-weight: 700;
+}
+
+.adminModalHeading p {
+  margin: 13px 0 27px;
+
+  color: #303030;
+
+  font-size: 18px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.adminUserForm {
+  display: flex;
+  flex-direction: column;
+
+  gap: 19px;
+}
+
+.adminFormGroup {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  min-width: 0;
+}
+
+.adminFormGroup label {
+  color: #111111;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.requiredStar {
+  margin-left: 3px;
+
+  color: #ff2020;
+}
+
+.adminFormGroup input,
+.adminFormGroup select {
+  width: 100%;
+  height: 46px;
+
+  padding: 0 14px;
+
+  border: 1px solid #555555;
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  font-size: 18px;
+}
+
+.adminFormGroup input::placeholder {
+  color: #aaaaaa;
+}
+
+.adminFormGroup input:focus,
+.adminFormGroup select:focus {
+  border-color: #1765ff;
+}
+
+.adminFormGroup input:disabled {
+  background: #f5f5f5;
+
+  color: #999999;
+
+  cursor: not-allowed;
+}
+
+.adminFormDouble {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 44px;
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.passwordLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.generatePasswordButton {
+  border: none;
+
+  background: transparent;
 
   color: #1765ff;
 
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.generatePasswordButton:hover {
+  text-decoration: underline;
+}
+
+.passwordInputWrapper {
+  position: relative;
+}
+
+.passwordInputWrapper input {
+  padding-right: 52px;
+}
+
+.passwordEyeButton {
+  position: absolute;
+
+  top: 50%;
+  right: 15px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #111111;
+
+  font-size: 23px;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   MODAL BUTTONS
+========================================================= */
+
+.adminModalButtons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 24px;
+
+  margin-top: 31px;
+}
+
+.adminCancelButton,
+.adminSubmitButton {
+  min-width: 110px;
+  height: 43px;
+
+  padding: 0 18px;
+
+  border-radius: 11px;
+
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.adminCancelButton {
+  border: 1px solid #222222;
+
+  background: #ffffff;
+
+  color: #111111;
+}
+
+.adminCancelButton:hover {
+  background: #f5f5f5;
+}
+
+.adminSubmitButton {
+  border: none;
+
+  background: #1765ff;
+
+  color: #ffffff;
+}
+
+.adminSubmitButton:hover {
+  background: #0d56e8;
+}
+
+/* =========================================================
+   RESPONSIVE ADMIN PANEL
+========================================================= */
+
+@media (max-width: 1000px) {
+  .userManagementToolbar {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .userManagementActions {
+    flex-wrap: wrap;
+  }
+
+  .adminUserTableWrapper {
+    overflow-x: auto;
+  }
+
+  .adminUserTable {
+    min-width: 850px;
+  }
+}
+
+@media (max-width: 700px) {
+  .adminPanelPage {
+    padding-top: 25px;
+  }
+
+  .adminUserModal {
+    padding: 22px 18px;
+  }
+
+  .adminFormDouble {
+    grid-template-columns: 1fr;
+
+    gap: 19px;
+  }
+
+  .adminModalButtons {
+    margin-top: 18px;
+  }
+}
+
+/* =========================================
+   FIGMA ICONS
+========================================= */
+
+/* ================================
+   ICONS ONLY
+================================ */
+
+.summaryImageIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+.avatarImage {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.reviewTopIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+.clockIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+}
+
+.fullscreenIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.dropdownImageIcon,
+.partsArrowImage {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.dropdownImageOpen,
+.partsArrowImageOpen {
+  transform: rotate(180deg);
+}
+
+.adminAvatarImage {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.adminActionIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.importImageIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.manageExamIcon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+}
+
+.manageSmallIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
+}
+
+.manageActionIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.manageChevron {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+.submittedSummary .submittedTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 0;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* =========================
+   BACK TO STUDENT LIST
+========================= */
+
+.backToStudentList {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 10px;
+  margin-bottom: 18px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #111111;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.backToStudentList:hover {
+  color: #246bfd;
+}
+
+.backArrow {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* =========================
+   QUESTION / ANSWER FULLSCREEN
+========================= */
+
+.fullscreenOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.fullscreenModal {
+  width: min(1100px, 95vw);
+  height: min(750px, 90vh);
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.fullscreenHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 28px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.fullscreenHeader h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.fullscreenCloseButton {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.fullscreenCloseButton:hover {
+  background: #f1f1f1;
+}
+
+/* จุดสำคัญ: ถ้าโจทย์/คำตอบยาว จะเลื่อนในนี้ */
+.fullscreenContent {
+  flex: 1;
+  min-height: 0;
+
+  padding: 28px;
+
+  overflow: auto;
+}
+
+.fullscreenContent strong {
+  font-size: 20px;
+}
+
+.fullscreenContent pre {
+  margin: 18px 0 0;
+
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }

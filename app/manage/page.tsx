@@ -4,7 +4,7 @@ export default function ManagePage() {
       <h2>Manage the exam</h2>
 
       <p>
-        หน้านี้จะทำตาม Figma ของ Manage the exam เมื่อมีแบบหน้านั้น
+        Manage the exam 
       </p>
     </section>
   );

@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 type Tab = {
   label: string;
@@ -30,6 +34,9 @@ const tabs: Tab[] = [
 export default function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const gradingPage = searchParams.get("page");
 
   const navRef = useRef<HTMLElement>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -79,7 +86,14 @@ export default function AdminNav() {
           className={`mainNavItem ${
             index === activeIndex ? "selected" : ""
           }`}
-          onClick={() => router.push(tab.href)}
+          onClick={() => {
+            if (tab.href === "/admin/grading" && gradingPage) {
+              router.push(`/admin/grading?page=${gradingPage}`);
+              return;
+            }
+
+            router.push(tab.href);
+          }}
         >
           {tab.label}
         </button>

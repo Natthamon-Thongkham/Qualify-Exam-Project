@@ -1,82 +1,532 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+type StudentInfo = {
+  id: string;
+  name: string;
+  submittedDate: string;
+  submittedTime: string;
+  totalScore: number;
+  
+  partStatus: {
+    [key: number]: "Reviewed" | "Pending";
+  };
+};
+
+type QuestionData = {
+  title: string;
+  questionLabel: string;
+  question: string;
+  answer: string;
+  aiFeedback: string;
+  aiPoints: string[];
+  suggestedScore: string;
+  maxScore: number;
+};
+
+type AnswerFromDB = {
+  answer_id: string;
+  question_id: string;
+  question_text: string;
+  final_score: string;
+  max_score: string;
+};
+
+type PartInfo = {
+  id: number;
+  name: string;
+  questionCount: number;
+};
+
+const students: Record<string, StudentInfo> = {
+  "2310511101110": {
+  id: "2310511101110",
+  name: "Sara Khan",
+  submittedDate: "2026-08-14",
+  submittedTime: "16:53",
+  totalScore: 16,
+  partStatus: {
+  1: "Reviewed",
+  2: "Reviewed",
+  3: "Reviewed",
+  4: "Reviewed",
+},
+},
+
+"2310511101111": {
+  id: "2310511101111",
+  name: "Ali Ahmed",
+  submittedDate: "2026-08-14",
+  submittedTime: "16:55",
+  totalScore: 12,
+  partStatus: {
+  1: "Reviewed",
+  2: "Reviewed",
+  3: "Reviewed",
+  4: "Reviewed",
+},
+},
+
+"2310511101115": {
+  id: "2310511101115",
+  name: "Nadia Rahman",
+  submittedDate: "2026-08-14",
+  submittedTime: "17:10",
+  totalScore: 44,
+  partStatus: {
+    1: "Reviewed",
+    2: "Reviewed",
+    3: "Reviewed",
+    4: "Reviewed",
+  },
+},
+
+"2310511101116": {
+  id: "2310511101116",
+  name: "Omar Faruk",
+  submittedDate: "2026-08-14",
+  submittedTime: "17:12",
+  totalScore: 68,
+  partStatus: {
+    1: "Reviewed",
+    2: "Reviewed",
+    3: "Reviewed",
+    4: "Reviewed",
+  },
+},
+
+"2310511101117": {
+  id: "2310511101117",
+  name: "Maya Singh",
+  submittedDate: "2026-08-14",
+  submittedTime: "17:15",
+  totalScore: 0,
+  partStatus: {
+    1: "Pending",
+    2: "Pending",
+    3: "Pending",
+    4: "Pending",
+  },
+},
+
+"2310511101118": {
+  id: "2310511101118",
+  name: "Daniel Kim",
+  submittedDate: "2026-08-14",
+  submittedTime: "17:18",
+  totalScore: 72,
+  partStatus: {
+    1: "Reviewed",
+    2: "Reviewed",
+    3: "Reviewed",
+    4: "Reviewed",
+  },
+},
+
+"2310511101119": {
+  id: "2310511101119",
+  name: "Lina Chen",
+  submittedDate: "2026-08-14",
+  submittedTime: "17:20",
+  totalScore: 0,
+  partStatus: {
+    1: "Pending",
+    2: "Pending",
+    3: "Pending",
+    4: "Pending",
+  },
+},
+};
+
+const parts: PartInfo[] = [
+  {
+    id: 1,
+    name: "Part 1 : Coding Snippet",
+    questionCount: 10,
+  },
+  {
+    id: 2,
+    name: "Part 2 : Programming",
+    questionCount: 1,
+  },
+  {
+    id: 3,
+    name: "Part 3",
+    questionCount: 3,
+  },
+  {
+    id: 4,
+    name: "Part 4",
+    questionCount: 1,
+  },
+];
+
+/*
+  ตอนนี้เป็น Mock Data สำหรับ Frontend
+  ตอนเชื่อม Backend ภายหลัง เราจะเปลี่ยนส่วนนี้ให้ดึงจาก API/PostgreSQL
+*/
+const questionData: Record<string, QuestionData> = {
+  "1-1": {
+    title: "Part 1 : Coding Snippet",
+    questionLabel: "Question 1 :",
+
+    question: "Question 1 content will be loaded from the backend.",
+
+    answer: "Student answer will be loaded from the backend.",
+
+    aiFeedback:
+      "The student correctly implemented the tax calculation logic according to the given conditions.",
+
+    aiPoints: [
+      "Correct parameter and return type",
+      "Correct calculation for all CC ranges",
+      "Proper use of if-else if-else structure",
+    ],
+
+    suggestedScore: "3 / 3",
+    maxScore: 5,
+  },
+
+  "1-2": {
+    title: "Part 1 : Coding Snippet",
+    questionLabel: "Question 2 :",
+
+    question: "Question 2 content will be loaded from the backend.",
+    answer: "Student answer will be loaded from the backend.",
+
+    aiFeedback:
+      "The student correctly implemented the tax calculation logic according to the given conditions.",
+
+    aiPoints: [
+      "Correct parameter and return type",
+      "Correct calculation for all CC ranges",
+      "Proper use of if-else if-else structure",
+    ],
+
+    suggestedScore: "3 / 3",
+    maxScore: 3,
+  },
+
+  "2-1": {
+    title: "Part 2 : Programming",
+    questionLabel: "Question :",
+
+    question: "Question 1 content will be loaded from the backend.",
+    answer: "Student answer will be loaded from the backend.",
+
+    aiFeedback:
+      "The student correctly implemented the tax calculation logic according to the given conditions.",
+
+    aiPoints: [
+      "Correct parameter and return type",
+      "Correct calculation for all CC ranges",
+      "Proper use of if-else if-else structure",
+    ],
+
+    suggestedScore: "3 / 3",
+    maxScore: 25,
+  },
+};
 
 export default function CheckAnswerPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const [score, setScore] = useState("15");
-  const [savedScore, setSavedScore] = useState("15");
+  const [answersFromDB, setAnswersFromDB] = useState<AnswerFromDB[]>([]);
+
+  useEffect(() => {
+  const loadAnswers = async () => {
+    try {
+      const response = await fetch("/api/answers");
+
+      if (!response.ok) {
+        throw new Error("Cannot load answers");
+      }
+
+      const data: AnswerFromDB[] = await response.json();
+
+      setAnswersFromDB(data);
+    } catch (error) {
+      console.error("Error loading answers:", error);
+    }
+  };
+
+  loadAnswers();
+}, []);
+
+  const [fullscreenBox, setFullscreenBox] = useState<
+  "question" | "answer" | null
+  >(null);
+
+  const studentId =
+    searchParams.get("student") ?? "2310511101110";
+
+  const partNumber = Number(searchParams.get("part") ?? "1");
+  const questionNumber = Number(
+    searchParams.get("question") ?? "1"
+  );
+
+  const student =
+    students[studentId] ?? students["2310511101110"];
+
+  const currentPart =
+    parts.find((part) => part.id === partNumber) ?? parts[0];
+
+  const questionKey = `${partNumber}-${questionNumber}`;
+
+  const answerFromDB = answersFromDB.find(
+  (answer) => answer.question_id === String(questionNumber)
+  );
+
+  const databaseMaxScore = answerFromDB
+  ? Number(answerFromDB.max_score)
+  : null;
+
+  /*
+    ถ้ายังไม่มี Mock Data ของข้อนั้น
+    ให้สร้าง placeholder ไว้ก่อน
+  */
+  const mockQuestion: QuestionData =
+    questionData[questionKey] ?? {
+      title: currentPart.name,
+      questionLabel: `Question ${questionNumber} :`,
+
+      question: `Question ${questionNumber} content will be loaded from the backend.`,
+
+      answer: "Student answer will be loaded from the backend.",
+
+      aiFeedback:
+        "AI assessment will be loaded when grading data is available.",
+
+      aiPoints: [
+        "Assessment information",
+        "Correctness analysis",
+        "Suggested grading result",
+      ],
+
+      suggestedScore: "- / -",
+      maxScore: answerFromDB
+      ? Number(answerFromDB.max_score)
+      : 20,
+    };
+
+    const currentQuestion: QuestionData = {
+      ...mockQuestion,
+      maxScore: databaseMaxScore ?? mockQuestion.maxScore,
+    };
+
+  const [score, setScore] = useState("");
+  const [savedScore, setSavedScore] = useState("");
   const [remark, setRemark] = useState("");
 
-  const handleScoreChange = (value: string) => {
-    const numberOnly = value.replace(/\D/g, "");
+  const [partMenuOpen, setPartMenuOpen] = useState(false);
 
-    if (numberOnly === "") {
+  const handleScoreChange = (value: string) => {
+    const onlyNumber = value.replace(/\D/g, "");
+
+    if (onlyNumber === "") {
       setScore("");
       return;
     }
 
-    const number = Math.min(Number(numberOnly), 20);
+    const number = Math.min(
+      Number(onlyNumber),
+      currentQuestion.maxScore
+    );
 
     setScore(String(number));
   };
 
-  const handleSaveScore = () => {
-    setSavedScore(score);
+  const goToPart = (part: number) => {
+    setPartMenuOpen(false);
+
+    router.push(
+      `/admin/grading/check?student=${studentId}&part=${part}&question=1`
+    );
   };
 
-  const handleCancelScore = () => {
-    setScore(savedScore);
+  const goBack = () => {
+    /*
+      ถ้ายังไม่ใช่ข้อแรกของ Part
+      → ย้อนกลับ 1 ข้อ
+    */
+    if (questionNumber > 1) {
+      router.push(
+        `/admin/grading/check?student=${studentId}&part=${partNumber}&question=${
+          questionNumber - 1
+        }`
+      );
+
+      return;
+    }
+
+    /*
+      ถ้าเป็นข้อแรกของ Part และไม่ใช่ Part 1
+      → กลับไปข้อสุดท้ายของ Part ก่อนหน้า
+    */
+    if (partNumber > 1) {
+      const previousPart = parts.find(
+        (part) => part.id === partNumber - 1
+      );
+
+      const previousQuestion =
+        previousPart?.questionCount ?? 1;
+
+      router.push(
+        `/admin/grading/check?student=${studentId}&part=${
+          partNumber - 1
+        }&question=${previousQuestion}`
+      );
+    }
   };
+
+  const goNext = () => {
+  // ไปข้อถัดไปเฉพาะภายใน Part เดิมเท่านั้น
+  if (questionNumber < currentPart.questionCount) {
+    router.push(
+      `/admin/grading/check?student=${studentId}&part=${partNumber}&question=${
+        questionNumber + 1
+      }`
+    );
+  }
+};
+const reviewedPartsCount = parts.filter(
+  (part) => student.partStatus[part.id] === "Reviewed"
+).length;
+
+const totalPartsCount = parts.length;
+
+const backToStudentList = () => {
+  const previousPage = searchParams.get("page") || "1";
+  router.push(`/admin/grading?page=${previousPage}`);
+};
 
   return (
     <section className="reviewPage">
-      {/* =========================
+
+    <button
+      type="button"
+      className="backToStudentList"
+      onClick={backToStudentList}
+    >
+      <span className="backArrow">←</span>
+      Back to Student List
+    </button>
+
+      {/* ========================
           TOP INFORMATION
-      ========================== */}
+      ======================== */}
 
       <div className="reviewTop">
-        <button className="examPartsButton">
-          <div>
-            <div className="examPartsTitle">
-              Exam Parts
+        <div className="examPartsSelector">
+          <button
+            type="button"
+            className="examPartsButton"
+            onClick={() =>
+              setPartMenuOpen((current) => !current)
+            }
+          >
+            <div>
+              <div className="examPartsTitle">
+                Exam Parts
 
-              <span className="smallReviewed">
-                Reviewed
-              </span>
+                <span
+                  className={
+                    student.partStatus[currentPart.id] === "Reviewed"
+                      ? "smallReviewed"
+                      : "smallPending"
+                  }
+                >
+                  {student.partStatus[currentPart.id]}
+                </span>
+              </div>
+
+              <div className="examPartsName">
+                {currentPart.name}
+              </div>
             </div>
 
-            <div className="examPartsName">
-              Part 1 : Coding Snippet
-            </div>
-          </div>
+            <img
+              src="/icons/Dropdown Arrow.png"
+              alt=""
+              className={`partsArrowImage ${
+                partMenuOpen ? "partsArrowImageOpen" : ""
+              }`}
+            />
+          </button>
 
-          <span className="partsArrow">▼</span>
-        </button>
+          {partMenuOpen && (
+            <div className="examPartsDropdown">
+              {parts.map((part) => (
+                <button
+                  key={part.id}
+                  type="button"
+                  className={`examPartOption ${
+                    partNumber === part.id
+                      ? "activeExamPart"
+                      : ""
+                  }`}
+                  onClick={() => goToPart(part.id)}
+                >
+                  <div>
+                    <strong>{part.name}</strong>
+
+                    <span
+                      className={
+                        student.partStatus[part.id] === "Reviewed"
+                          ? "partReviewedText"
+                          : "partPendingText"
+                      }
+                    >
+                      {student.partStatus[part.id]}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="studentSummary">
           <div className="summaryPersonIcon">
-            ♙
+            <img
+              src="/icons/users.png"
+              alt=""
+              className="reviewTopIcon"
+            />
           </div>
 
           <div>
-            <strong>Sara Khan</strong>
-            <span>2310511101110</span>
+            <strong>{student.name}</strong>
+            <span>{student.id}</span>
           </div>
         </div>
 
         <div className="submittedSummary">
           <div className="calendarIcon">
-            ▦
+            <img
+              src="/icons/Calendar Check.png"
+              alt=""
+              className="reviewTopIcon"
+            />
           </div>
 
           <div>
             <strong>Submitted on</strong>
 
             <span>
-              2026-08-14&nbsp;&nbsp; ◷ 16:53
+              {student.submittedDate}
+              &nbsp;&nbsp; 
+              <span className="submittedTime">
+                <img
+                  src="/icons/clock.png"
+                  alt=""
+                  className="clockIcon"
+                />
+                {student.submittedTime}
+              </span>
             </span>
           </div>
         </div>
@@ -84,10 +534,19 @@ export default function CheckAnswerPage() {
         <div className="progressSummary">
           <strong>Progress</strong>
 
-          <span>2/4 Parts Reviewed</span>
+          <span>{reviewedPartsCount}/{totalPartsCount} Parts Reviewed</span>
 
           <div className="progressTrack">
-            <div className="progressValue" />
+            <div
+              className="progressValue"
+              style={{
+                width: `${
+                  totalPartsCount === 0
+                    ? 0
+                    : (reviewedPartsCount / totalPartsCount) * 100
+                }%`,
+              }}
+            />
           </div>
         </div>
 
@@ -95,42 +554,43 @@ export default function CheckAnswerPage() {
           <strong>Total Score</strong>
 
           <span>
-            <b>16</b> / 100
+            <b>{student.totalScore}</b> / 100
           </span>
         </div>
       </div>
 
-      {/* =========================
-          CONTENT
-      ========================== */}
+      {/* ========================
+          QUESTION + ANSWER
+      ======================== */}
 
       <div className="reviewColumns">
-        {/* LEFT */}
-
         <div className="reviewLeft">
           <section className="questionBox">
             <div className="boxHeading">
-              <h2>Part 1 : Coding Snippet</h2>
+              <h2>{currentQuestion.title}</h2>
 
               <button
                 type="button"
                 className="expandButton"
                 aria-label="Expand question"
+                onClick={() => setFullscreenBox("question")}
               >
-                ⛶
+                <img
+                  src="/icons/fullscreen.png"
+                  alt=""
+                  className="fullscreenIcon"
+                />
               </button>
             </div>
 
             <div className="questionContent">
-              <strong>Question 1 :</strong>
+              <strong>
+                {currentQuestion.questionLabel}
+              </strong>
 
-              <pre>{`let newCar = true;
-let oldDriver = true;
-if (!newCar || oldDriver) {
-    console.log("You will go slowly");
-} else {
-    console. 10g("You will go fast");
-}`}</pre>
+              <pre>
+                {currentQuestion.question}
+              </pre>
             </div>
           </section>
 
@@ -142,18 +602,21 @@ if (!newCar || oldDriver) {
                 type="button"
                 className="expandButton"
                 aria-label="Expand student answer"
+                onClick={() => setFullscreenBox("answer")}
               >
                 ⛶
               </button>
             </div>
 
-            <p className="studentAnswerText">
-              You will go slowly
-            </p>
+            <pre className="studentAnswerText">
+              {currentQuestion.answer}
+            </pre>
           </section>
         </div>
 
-        {/* RIGHT */}
+        {/* ========================
+            AI ASSESSMENT
+        ======================== */}
 
         <div className="reviewRight">
           <h2 className="assessmentTitle">
@@ -161,42 +624,42 @@ if (!newCar || oldDriver) {
           </h2>
 
           <section className="aiAssessment">
-            <p>
-              The student correctly implemented the tax
-              calculation logic according to the given
-              conditions.
-            </p>
+            <p>{currentQuestion.aiFeedback}</p>
 
             <ul>
-              <li>
-                <span className="checkMark">✓</span>
-                Correct parameter and return type
-              </li>
+              {currentQuestion.aiPoints.map(
+                (point, index) => (
+                  <li key={index}>
+                    <span className="checkMark">
+                      ✓
+                    </span>
 
-              <li>
-                <span className="checkMark">✓</span>
-                Correct calculation for all CC ranges
-              </li>
-
-              <li>
-                <span className="checkMark">✓</span>
-                Proper use of if-else if-else structure
-              </li>
+                    {point}
+                  </li>
+                )
+              )}
             </ul>
 
             <div className="suggestedScore">
               <small>Suggested Score</small>
 
-              <div>3 / 3</div>
+              <div>
+                {currentQuestion.suggestedScore}
+              </div>
             </div>
           </section>
 
-          {/* MANUAL REVIEW */}
+          {/* ========================
+              MANUAL REVIEW
+          ======================== */}
 
           <section className="manualReview">
             <div className="manualLabel">
               <strong>Manual Review</strong>
-              <span>Score (0-20)</span>
+
+              <span>
+                Score (0-{currentQuestion.maxScore})
+              </span>
             </div>
 
             <div className="manualScore">
@@ -204,17 +667,23 @@ if (!newCar || oldDriver) {
                 type="text"
                 value={score}
                 onChange={(event) =>
-                  handleScoreChange(event.target.value)
+                  handleScoreChange(
+                    event.target.value
+                  )
                 }
               />
 
-              <strong>/ 20</strong>
+              <strong>
+                / {currentQuestion.maxScore}
+              </strong>
             </div>
 
             <button
               type="button"
               className="cancelScoreButton"
-              onClick={handleCancelScore}
+              onClick={() =>
+                setScore(savedScore)
+              }
             >
               Cancel
             </button>
@@ -222,13 +691,17 @@ if (!newCar || oldDriver) {
             <button
               type="button"
               className="saveScoreButton"
-              onClick={handleSaveScore}
+              onClick={() =>
+                setSavedScore(score)
+              }
             >
               Save Score
             </button>
           </section>
 
-          {/* REMARK */}
+          {/* ========================
+              REMARK
+          ======================== */}
 
           <section className="remarkSection">
             <strong>Remark (Optional)</strong>
@@ -249,23 +722,76 @@ if (!newCar || oldDriver) {
         </div>
       </div>
 
-      {/* =========================
-          NEXT
-      ========================== */}
+      {/* ========================
+          BACK / NEXT
+      ======================== */}
 
-      <div className="reviewNavigation">
-        <button
-          type="button"
-          className="nextQuestionButton"
-          onClick={() =>
-            router.push(
-              "/admin/grading/check/p1-2"
-            )
-          }
+      {(partNumber === 1 || partNumber === 3) && (
+        <div className="reviewNavigation reviewNavigationBoth">
+          {questionNumber > 1 && (
+            <button
+              type="button"
+              className="backQuestionButton"
+              onClick={goBack}
+            >
+              &lt; Back
+            </button>
+          )}
+
+          {questionNumber < currentPart.questionCount && (
+            <button
+              type="button"
+              className="nextQuestionButton"
+              onClick={goNext}
+            >
+             Next &gt;
+            </button>
+          )}
+        </div>
+      )}
+      
+      {fullscreenBox && (
+        <div
+          className="fullscreenOverlay"
+          onClick={() => setFullscreenBox(null)}
         >
-          Next &gt;
-        </button>
-      </div>
-    </section>
-  );
+          <div
+            className="fullscreenModal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="fullscreenHeader">
+              <h2>
+                {fullscreenBox === "question"
+                  ? currentQuestion.title
+                  : "Student Answer"}
+              </h2>
+
+              <button
+                type="button"
+                className="fullscreenCloseButton"
+                onClick={() => setFullscreenBox(null)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="fullscreenContent">
+              {fullscreenBox === "question" ? (
+                <>
+                  <strong>
+                    {currentQuestion.questionLabel}
+                  </strong>
+
+                  <pre>{currentQuestion.question}</pre>
+                </>
+              ) : (
+                <pre>{currentQuestion.answer}</pre>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+</section>
+);
 }
