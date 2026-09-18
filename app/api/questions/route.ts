@@ -4,17 +4,14 @@ import { supabase } from "@/lib/supabase";
 export async function GET() {
   try {
     const { data, error } = await supabase
-      .from("Answer")
+      .from("Question")
       .select(`
-        Answer_id,
         Question_id,
-        Final_score,
-        Question (
-          Question_text,
-          Max_score
-        )
+        Part_id,
+        Question_text,
+        Max_score
       `)
-      .order("Answer_id", { ascending: true });
+      .order("Question_id", { ascending: true });
 
     if (error) {
       throw error;
@@ -22,10 +19,10 @@ export async function GET() {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error loading answers:", error);
+    console.error("Error loading questions:", error);
 
     return NextResponse.json(
-      { message: "Cannot load answers" },
+      { message: "Cannot load questions" },
       { status: 500 }
     );
   }

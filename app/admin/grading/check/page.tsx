@@ -27,11 +27,13 @@ type QuestionData = {
 };
 
 type AnswerFromDB = {
-  answer_id: string;
-  question_id: string;
-  question_text: string;
-  final_score: string;
-  max_score: string;
+  Answer_id: number;
+  Question_id: number;
+  Final_score: number | null;
+  Question: {
+    Question_text: string;
+    Max_score: number;
+  } | null;
 };
 
 type PartInfo = {
@@ -67,6 +69,48 @@ const students: Record<string, StudentInfo> = {
   3: "Reviewed",
   4: "Reviewed",
 },
+},
+
+"2310511101112": {
+  id: "2310511101112",
+  name: "Fatima Noor",
+  submittedDate: "2026-08-14",
+  submittedTime: "16:53",
+  totalScore: 56,
+  partStatus: {
+    1: "Reviewed",
+    2: "Reviewed",
+    3: "Reviewed",
+    4: "Reviewed",
+  },
+},
+
+"2310511101113": {
+  id: "2310511101113",
+  name: "Hassan Ali",
+  submittedDate: "2026-08-14",
+  submittedTime: "16:53",
+  totalScore: 0,
+  partStatus: {
+    1: "Pending",
+    2: "Pending",
+    3: "Pending",
+    4: "Pending",
+  },
+},
+
+"2310511101114": {
+  id: "2310511101114",
+  name: "Hassan Ali",
+  submittedDate: "2026-08-14",
+  submittedTime: "16:53",
+  totalScore: 0,
+  partStatus: {
+    1: "Pending",
+    2: "Pending",
+    3: "Pending",
+    4: "Pending",
+  },
 },
 
 "2310511101115": {
@@ -236,6 +280,17 @@ export default function CheckAnswerPage() {
 
   const [answersFromDB, setAnswersFromDB] = useState<AnswerFromDB[]>([]);
 
+  type PartFromDB = {
+    Part_id: number;
+    Exam_id: number;
+    Part_number: number;
+    Title: string | null;
+    Instruction: string | null;
+    Total_score: number | null;
+  };
+
+  const [partsFromDB, setPartsFromDB] = useState<PartFromDB[]>([]);
+
   useEffect(() => {
   const loadAnswers = async () => {
     try {
@@ -254,6 +309,58 @@ export default function CheckAnswerPage() {
   };
 
   loadAnswers();
+}, []);
+
+type QuestionFromDB = {
+  Question_id: number;
+  Part_id: number;
+  Question_text: string | null;
+  Max_score: number | null;
+};
+
+const [questionsFromDB, setQuestionsFromDB] =
+  useState<QuestionFromDB[]>([]);
+
+useEffect(() => {
+  const loadQuestions = async () => {
+    try {
+      const response = await fetch("/api/questions");
+
+      if (!response.ok) {
+        throw new Error("Cannot load questions");
+      }
+
+      const data: QuestionFromDB[] = await response.json();
+
+      setQuestionsFromDB(data);
+      console.log("Questions from DB:", data);
+    } catch (error) {
+      console.error("Error loading questions:", error);
+    }
+  };
+
+  loadQuestions();
+}, []);
+
+useEffect(() => {
+  const loadParts = async () => {
+    try {
+      const response = await fetch("/api/parts");
+
+      if (!response.ok) {
+        throw new Error("Cannot load exam parts");
+      }
+
+      const data: PartFromDB[] = await response.json();
+
+      setPartsFromDB(data);
+      console.log("Parts from DB:", data);
+    } catch (error) {
+      console.error("Error loading exam parts:", error);
+    }
+  };
+
+  loadParts();
 }, []);
 
   const [fullscreenBox, setFullscreenBox] = useState<
@@ -277,12 +384,19 @@ export default function CheckAnswerPage() {
   const questionKey = `${partNumber}-${questionNumber}`;
 
   const answerFromDB = answersFromDB.find(
-  (answer) => answer.question_id === String(questionNumber)
+    (answer) => answer.Question_id === questionNumber
   );
 
-  const databaseMaxScore = answerFromDB
-  ? Number(answerFromDB.max_score)
-  : null;
+  const questionFromDB = questionsFromDB.find(
+  (question) =>
+    question.Part_id === partNumber &&
+    question.Question_id === questionNumber
+);
+
+const databaseMaxScore =
+  questionFromDB?.Max_score != null
+    ? Number(questionFromDB.Max_score)
+    : null;
 
   /*
     ถ้ายังไม่มี Mock Data ของข้อนั้น
@@ -307,15 +421,18 @@ export default function CheckAnswerPage() {
       ],
 
       suggestedScore: "- / -",
-      maxScore: answerFromDB
-      ? Number(answerFromDB.max_score)
-      : 20,
+      maxScore: databaseMaxScore ?? 0,
     };
 
     const currentQuestion: QuestionData = {
-      ...mockQuestion,
-      maxScore: databaseMaxScore ?? mockQuestion.maxScore,
-    };
+  ...mockQuestion,
+  question:
+    questionFromDB?.Question_text ??
+    mockQuestion.question,
+  maxScore:
+    databaseMaxScore ??
+    mockQuestion.maxScore,
+};
 
   const [score, setScore] = useState("");
   const [savedScore, setSavedScore] = useState("");
@@ -382,16 +499,20 @@ export default function CheckAnswerPage() {
     }
   };
 
-  const goNext = () => {
+  
   // ไปข้อถัดไปเฉพาะภายใน Part เดิมเท่านั้น
+  const goNext = () => {
+  const previousPage = searchParams.get("page") || "1";
+
   if (questionNumber < currentPart.questionCount) {
     router.push(
       `/admin/grading/check?student=${studentId}&part=${partNumber}&question=${
         questionNumber + 1
-      }`
+      }&page=${previousPage}`
     );
   }
 };
+
 const reviewedPartsCount = parts.filter(
   (part) => student.partStatus[part.id] === "Reviewed"
 ).length;
@@ -402,6 +523,23 @@ const backToStudentList = () => {
   const previousPage = searchParams.get("page") || "1";
   router.push(`/admin/grading?page=${previousPage}`);
 };
+
+const displayParts: PartInfo[] =
+  partsFromDB.length > 0
+    ? partsFromDB.map((part) => ({
+        id: part.Part_id,
+        name: part.Title ?? `Part ${part.Part_number}`,
+        questionCount:
+          part.Part_number === 1
+            ? 10
+            : part.Part_number === 2
+            ? 1
+            : part.Part_number === 3
+            ? 3
+            : 1,
+      }))
+    : parts;
+
 
   return (
     <section className="reviewPage">
@@ -459,7 +597,7 @@ const backToStudentList = () => {
 
           {partMenuOpen && (
             <div className="examPartsDropdown">
-              {parts.map((part) => (
+              {displayParts.map((part) => (
                 <button
                   key={part.id}
                   type="button"
